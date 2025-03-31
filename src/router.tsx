@@ -5,10 +5,13 @@ import NewProduct from './views/NewProduct';
 import Product from './views/Products';
 import EditProduct from './views/EditProducts';
 
-import { newProductAction } from './actions';
-import { productLoader } from './loaders';
-import { editProductLoader } from './loaders';
-import { editProductAction } from './actions';
+import { productLoader, editProductLoader } from './loaders';
+import {
+  newProductAction,
+  editProductAction,
+  updateAvailabilityAction,
+  deleteProductAction,
+} from './actions';
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +22,7 @@ export const router = createBrowserRouter([
         index: true,
         element: <Product />,
         loader: productLoader,
+        action: updateAvailabilityAction,
       },
       {
         path: 'productos/nuevo',
@@ -30,6 +34,10 @@ export const router = createBrowserRouter([
         element: <EditProduct />,
         loader: editProductLoader,
         action: editProductAction,
+      },
+      {
+        path: 'productos/:id/eliminar',
+        action: deleteProductAction,
       },
     ],
   },

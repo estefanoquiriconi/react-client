@@ -1,8 +1,14 @@
 import { Link, Form, useActionData, useLoaderData } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
 import { Product } from '../types';
+import ProductForm from '../components/ProductForm';
 
 export default function EditProduct() {
+  const availabilityOptions = [
+    { name: 'Disponible', value: true },
+    { name: 'No Disponible', value: false },
+  ];
+
   const error = useActionData() as string;
   const product = useLoaderData() as Product;
 
@@ -20,40 +26,31 @@ export default function EditProduct() {
       <Form
         className='mt-10'
         method='POST'>
+        <ProductForm product={product} />
         <div className='mb-4'>
           <label
             className='text-gray-800'
-            htmlFor='name'>
-            Nombre Producto:
+            htmlFor='availability'>
+            Disponibilidad:
           </label>
-          <input
-            id='name'
-            type='text'
+          <select
+            id='isAvailable'
             className='mt-2 block w-full p-3 bg-gray-50'
-            placeholder='Nombre del Producto'
-            name='name'
-            defaultValue={product.name}
-          />
-        </div>
-        <div className='mb-4'>
-          <label
-            className='text-gray-800'
-            htmlFor='price'>
-            Precio:
-          </label>
-          <input
-            id='price'
-            type='number'
-            className='mt-2 block w-full p-3 bg-gray-50'
-            placeholder='Precio Producto. ej. 200, 300'
-            name='price'
-            defaultValue={product.price}
-          />
+            name='isAvailable'
+            defaultValue={product?.isAvailable.toString()}>
+            {availabilityOptions.map((option) => (
+              <option
+                key={option.name}
+                value={option.value.toString()}>
+                {option.name}
+              </option>
+            ))}
+          </select>
         </div>
         <input
           type='submit'
           className='mt-5 w-full bg-indigo-600 p-2 text-white font-bold text-lg cursor-pointer rounded'
-          value='Registrar Producto'
+          value='Guardar Cambios'
         />
       </Form>
     </>

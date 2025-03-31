@@ -7,6 +7,7 @@ import {
   ProductSchema,
   ProductsSchema,
 } from '../types';
+import { toBoolean } from '../utils';
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/products`;
 
@@ -93,9 +94,11 @@ export async function updateProduct(
   data: ProductFormData
 ): Promise<void> {
   try {
-    const result = safeParse(DraftProductSchema, {
+    const result = safeParse(ProductSchema, {
+      id,
       name: data.name,
       price: +data.price,
+      isAvailable: toBoolean(data.isAvailable.toString()),
     });
 
     if (!result.success)
@@ -104,5 +107,25 @@ export async function updateProduct(
     await axios.put(`${API_URL}/${id}`, result.output);
   } catch (error) {
     console.error(`Error al editar el producto: ${error}`);
+  }
+}
+
+export async function deleteProduct(id: Product['id']): Promise<void> {
+  try {
+    await axios.delete(`${API_URL}/${id}`);
+  } catch (error) {
+    console.error(`Error al eliminar el producto: ${error}`);
+  }
+}
+
+export async function updateProductAvailability(
+  id: Product['id']
+): Promise<void> {
+  try {
+    await axios.patch(`${API_URL}/${id}`);
+  } catch (error) {
+    console.error(
+      `Error al actualizar la disponibilidad del producto: ${error}`
+    );
   }
 }
