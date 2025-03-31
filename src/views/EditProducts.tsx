@@ -1,15 +1,15 @@
-import { Link, Form, useActionData } from 'react-router-dom';
+import { Link, Form, useActionData, useLoaderData } from 'react-router-dom';
 import ErrorMessage from '../components/ErrorMessage';
+import { Product } from '../types';
 
-export default function NewProduct() {
+export default function EditProduct() {
   const error = useActionData() as string;
+  const product = useLoaderData() as Product;
 
   return (
     <>
       <div className='flex justify-between'>
-        <h2 className='text-4xl font-black text-slate-500'>
-          Registrar Producto
-        </h2>
+        <h2 className='text-4xl font-black text-slate-500'>Editar Producto</h2>
         <Link
           to={'/'}
           className='rounded bg-indigo-600 p-3 text-sm font-bold text-white shadow-sm hover:bg-indigo-500'>
@@ -32,6 +32,7 @@ export default function NewProduct() {
             className='mt-2 block w-full p-3 bg-gray-50'
             placeholder='Nombre del Producto'
             name='name'
+            defaultValue={product.name}
           />
         </div>
         <div className='mb-4'>
@@ -46,6 +47,7 @@ export default function NewProduct() {
             className='mt-2 block w-full p-3 bg-gray-50'
             placeholder='Precio Producto. ej. 200, 300'
             name='price'
+            defaultValue={product.price}
           />
         </div>
         <input
